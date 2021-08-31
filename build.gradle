@@ -15,7 +15,7 @@ configurations {
 }
 
 group = "io.trocco"
-version = "0.0.10"
+version = "0.0.11"
 description = "Pardot input plugin for Embulk"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

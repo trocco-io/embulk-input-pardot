@@ -140,12 +140,14 @@ public class EmailStatsReporter implements ReporterInterface
             logger.debug("visitor activities total results: " + res.getTotalResults());
             totalResults = res.getTotalResults();
             for (VisitorActivity va : res.getVisitorActivities()) {
-                this.listEmails.put(va.getListEmailId(), va);
+                if (va.getListEmailId() != null) {
+                    this.listEmails.put(va.getListEmailId(), va);
+                }
             }
         }
         while (offset < totalResults);
 
-        logger.debug("fetched list_emails size: " + listEmails.size());
+        logger.info("fetched list_emails size: " + listEmails.size());
     }
 
     @Override
