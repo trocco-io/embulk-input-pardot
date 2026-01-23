@@ -23,8 +23,8 @@ jobs:
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.PARDOT_JAVA_CLIENT_READ_TOKEN }}
-      - name: test with Gradle
-        run: ./gradlew test --info
+      - name: build with Gradle
+        run: ./gradlew build --info
         env:
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.PARDOT_JAVA_CLIENT_READ_TOKEN }}
