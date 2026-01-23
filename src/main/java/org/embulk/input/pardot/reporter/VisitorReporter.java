@@ -5,7 +5,6 @@ import com.darksci.pardot.api.request.DateParameter;
 import com.darksci.pardot.api.request.visitor.VisitorQueryRequest;
 import com.darksci.pardot.api.response.visitor.Visitor;
 import com.darksci.pardot.api.response.visitor.VisitorQueryResponse;
-import com.google.common.collect.ImmutableList;
 import org.embulk.config.ConfigException;
 import org.embulk.input.pardot.PluginTask;
 import org.embulk.input.pardot.accessor.AccessorInterface;
@@ -28,9 +27,9 @@ public class VisitorReporter implements ReporterInterface
         this.queryRequest = buildQueryRequest();
     }
 
-    public ImmutableList.Builder<Column> createColumnBuilder()
+    public List<Column> createColumns()
     {
-        ImmutableList.Builder<Column> columns = ImmutableList.builder();
+        List<Column> columns = new ArrayList<>();
         int i = 0;
         // @see https://developer.pardot.com/kb/object-field-references/#visitor
         columns.add(new Column(i++, "id", Types.LONG));

@@ -1,13 +1,14 @@
 package org.embulk.input.pardot.reporter;
 
 import com.darksci.pardot.api.PardotClient;
-import com.google.common.collect.ImmutableList;
 import org.embulk.input.pardot.accessor.AccessorInterface;
 import org.embulk.spi.Column;
 
+import java.util.List;
+
 public interface ReporterInterface
 {
-    ImmutableList.Builder<Column> createColumnBuilder();
+    List<Column> createColumns();
 
     void withOffset(Integer rowIndex);
 
