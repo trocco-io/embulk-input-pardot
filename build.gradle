@@ -14,21 +14,21 @@ group = "io.trocco"
 version = "0.0.12"
 description = "Pardot input plugin for Embulk"
 
-def embulkVersion = "0.10.43"
+def embulkApiVersion = "0.10.43"
+def embulkSpiVersion = "0.10.46"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-configurations {
-    compileClasspath.resolutionStrategy.activateDependencyLocking()
-    runtimeClasspath.resolutionStrategy.activateDependencyLocking()
+dependencyLocking {
+    lockAllConfigurations()
 }
 
 dependencies {
-    compileOnly "org.embulk:embulk-api:${embulkVersion}"
-    compileOnly "org.embulk:embulk-spi:${embulkVersion}"
+    compileOnly "org.embulk:embulk-api:${embulkApiVersion}"
+    compileOnly "org.embulk:embulk-spi:${embulkSpiVersion}"
 
     implementation "org.embulk:embulk-util-config:0.3.4"
     implementation "org.embulk:embulk-util-timestamp:0.2.2"
@@ -36,11 +36,11 @@ dependencies {
 
     testImplementation "junit:junit:4.13"
     testImplementation "org.mockito:mockito-core:1.10.19"
-    testImplementation "org.embulk:embulk-api:${embulkVersion}"
-    testImplementation "org.embulk:embulk-spi:${embulkVersion}"
-    testImplementation "org.embulk:embulk-core:${embulkVersion}"
-    testImplementation "org.embulk:embulk-deps:${embulkVersion}"
-    testImplementation "org.embulk:embulk-junit4:${embulkVersion}"
+    testImplementation "org.embulk:embulk-api:${embulkApiVersion}"
+    testImplementation "org.embulk:embulk-spi:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-core:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-deps:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-junit4:${embulkSpiVersion}"
 }
 
 tasks.withType(JavaCompile).configureEach {
