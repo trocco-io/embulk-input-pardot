@@ -53,6 +53,15 @@ embulkPlugin {
     type = "pardot"
 }
 
+gem {
+    from("LICENSE")
+    authors = ["u110"]
+    email = ["web.u.project@gmail.com"]
+    summary = "${description}"
+    homepage = "https://github.com/trocco-io/embulk-input-pardot"
+    licenses = ["Apache-2.0"]
+}
+
 publishing {
     publications {
         embulkPluginMaven(MavenPublication) {
