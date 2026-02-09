@@ -10,16 +10,15 @@ apply plugin: "com.github.johnrengelman.shadow"
 
 repositories {
     mavenCentral()
-    maven{
+    maven {
         name = "GitHubPackages"
-        url "https://maven.pkg.github.com/u110/pardot-java-client"
+        url = uri("https://maven.pkg.github.com/primenumber-dev/pardot-java-client")
         credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            username = System.getenv("GITHUB_ACTOR") ?: System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_TOKEN")
         }
     }
 }
-
 
 group = "io.trocco"
 version = "${rootProject.version}"
@@ -39,8 +38,8 @@ configurations {
 }
 
 dependencies {
-    // [orignal] https://mvnrepository.com/artifact/com.darksci/pardot-api-client
-    implementation group: 'io.github.u110', name: 'pardot-api-client', version: '3.2.0-0.0.10'
+    // https://github.com/primenumber-dev/pardot-java-client
+    implementation 'io.github.primenumber-dev:pardot-api-client:3.2.0-0.0.10'
 }
 
 // Relocate Guava and Jackson packages since they are incompatible from Embulk's.

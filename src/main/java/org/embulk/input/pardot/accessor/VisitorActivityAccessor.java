@@ -1,7 +1,6 @@
 package org.embulk.input.pardot.accessor;
 
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivity;
-import com.google.common.base.CaseFormat;
 import org.embulk.input.pardot.PluginTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class VisitorActivityAccessor implements AccessorInterface
                     return va.getCampaign().getFolderId().toString();
                 default:
             }
-            methodName = "get" + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name);
+            methodName = "get" + lowerUnderscoreToUpperCamel(name);
             Class<VisitorActivity> clazz = (Class<VisitorActivity>) va.getClass();
             Method method = clazz.getDeclaredMethod(methodName);
             Object res =  method.invoke(va);

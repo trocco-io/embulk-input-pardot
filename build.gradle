@@ -3,39 +3,71 @@ plugins {
     id "checkstyle"
     id "maven-publish"
     id "com.github.johnrengelman.shadow" version "5.2.0" apply false
-    id "org.embulk.embulk-plugins" version "0.4.2"
+    id "org.embulk.embulk-plugins" version "0.7.0"
+    id "com.palantir.git-version" version "0.12.3"
 }
 
 repositories {
     mavenCentral()
-    jcenter()
-}
-configurations {
-    provided
 }
 
 group = "io.trocco"
-version = "0.0.11"
+version = {
+    def vd = versionDetails()
+    if (vd.commitDistance == 0 && vd.lastTag ==~ /^v[0-9]+\.[0-9]+\.[0-9]+([.-][.a-zA-Z0-9-]+)?/) {
+        vd.lastTag.substring(1)
+    } else {
+        "0.0.0.${vd.gitHash}"
+    }
+}()
 description = "Pardot input plugin for Embulk"
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
+def embulkApiVersion = "0.10.43"
+def embulkSpiVersion = "0.10.46"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencyLocking {
+    lockAllConfigurations()
+}
 
 dependencies {
-    compileOnly "org.embulk:embulk-core:0.9.23"
-    compile project(path: ":shadow-pardot-helper", configuration: "shadow")
-    testCompile "junit:junit:4.13"
-    testCompile 'org.embulk:embulk-standards:0.9.23'
-    testCompile 'org.embulk:embulk-test:0.9.23'
-    testCompile "org.mockito:mockito-core:1.10.19"
-    testCompile "org.embulk:embulk-core:0.9.23:tests"
-    testCompile "org.embulk:embulk-deps-buffer:0.9.23"
-    testCompile "org.embulk:embulk-deps-config:0.9.23"
+    compileOnly "org.embulk:embulk-api:${embulkApiVersion}"
+    compileOnly "org.embulk:embulk-spi:${embulkSpiVersion}"
+
+    implementation "org.embulk:embulk-util-config:0.3.4"
+    implementation "org.embulk:embulk-util-timestamp:0.2.2"
+    implementation project(path: ":shadow-pardot-helper", configuration: "shadow")
+
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.mockito:mockito-core:1.10.19"
+    testImplementation "org.embulk:embulk-api:${embulkApiVersion}"
+    testImplementation "org.embulk:embulk-spi:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-core:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-deps:${embulkSpiVersion}"
+    testImplementation "org.embulk:embulk-junit4:${embulkSpiVersion}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
 }
 
 embulkPlugin {
     mainClass = "org.embulk.input.pardot.PardotInputPlugin"
     category = "input"
     type = "pardot"
+}
+
+gem {
+    from("LICENSE")
+    authors = ["u110"]
+    email = ["web.u.project@gmail.com"]
+    summary = "${description}"
+    homepage = "https://github.com/trocco-io/embulk-input-pardot"
+    licenses = ["Apache-2.0"]
 }
 
 publishing {
@@ -69,15 +101,3 @@ task checkstyle(type: Checkstyle) {
     source = sourceSets.main.allJava + sourceSets.test.allJava
 }
 
-gem {
-    from("LICENSE")  // Optional -- if you need other files in the gem.
-    authors = ["u110"]
-    email = ["web.u.project@gmail.com"]
-    summary = "${description}"
-    homepage = "https://github.com/u110/embulk-input-pardot"
-    licenses = ["Apache-2.0"]
-}
-
-gemPush {
-    host = "https://rubygems.pkg.github.com/u110"
-}

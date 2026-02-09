@@ -1,8 +1,6 @@
 package org.embulk.input.pardot;
 
-import com.darksci.pardot.api.ConfigurationBuilder;
 import com.darksci.pardot.api.PardotClient;
-import com.google.common.collect.ImmutableList;
 import org.embulk.config.ConfigDiff;
 import org.embulk.config.ConfigException;
 import org.embulk.config.ConfigSource;
@@ -16,6 +14,9 @@ import org.embulk.spi.InputPlugin;
 import org.embulk.spi.PageBuilder;
 import org.embulk.spi.PageOutput;
 import org.embulk.spi.Schema;
+import org.embulk.util.config.ConfigMapper;
+import org.embulk.util.config.ConfigMapperFactory;
+import org.embulk.util.config.TaskMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,21 +26,25 @@ public class PardotInputPlugin
         implements InputPlugin
 {
     private static final Logger logger = LoggerFactory.getLogger(PardotInputPlugin.class);
+    private static final ConfigMapperFactory CONFIG_MAPPER_FACTORY = ConfigMapperFactory.builder().addDefaultModules().build();
+
     private ReporterInterface reporter;
 
     @Override
+    @SuppressWarnings("deprecation") // For compatibility with Embulk v0.9
     public ConfigDiff transaction(ConfigSource config,
                                   InputPlugin.Control control)
     {
-        PluginTask task = config.loadConfig(PluginTask.class);
+        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
+        PluginTask task = configMapper.map(config, PluginTask.class);
 
         reporter = ReporterBuilder.create(task);
-        ImmutableList.Builder<Column> builder = reporter.createColumnBuilder();
+        List<Column> columns = reporter.createColumns();
 
-        final Schema schema = new Schema(builder.build());
+        final Schema schema = new Schema(columns);
         int taskCount = 1;  // number of run() method calls
 
-        return resume(task.dump(), schema, taskCount, control);
+        return resume(task.toTaskSource(), schema, taskCount, control);
     }
 
     @Override
@@ -48,7 +53,7 @@ public class PardotInputPlugin
                              InputPlugin.Control control)
     {
         control.run(taskSource, schema, taskCount);
-        return Exec.newConfigDiff();
+        return CONFIG_MAPPER_FACTORY.newConfigDiff();
     }
 
     @Override
@@ -59,11 +64,13 @@ public class PardotInputPlugin
     }
 
     @Override
+    @SuppressWarnings("deprecation") // For compatibility with Embulk v0.9
     public TaskReport run(TaskSource taskSource,
                           Schema schema, int taskIndex,
                           PageOutput output)
     {
-        PluginTask task = taskSource.loadTask(PluginTask.class);
+        TaskMapper taskMapper = CONFIG_MAPPER_FACTORY.createTaskMapper();
+        PluginTask task = taskMapper.map(taskSource, PluginTask.class);
         final PageBuilder pageBuilder = new PageBuilder(Exec.getBufferAllocator(), schema, output);
         final PardotClient pardotClient = getClient(task);
         reporter = ReporterBuilder.create(task);
@@ -89,18 +96,17 @@ public class PardotInputPlugin
         while (rowIndex < totalResults);
         reporter.afterExecuteQueries();
         pageBuilder.finish();
-        return Exec.newTaskReport();
+        return CONFIG_MAPPER_FACTORY.newTaskReport();
     }
 
     @Override
     public ConfigDiff guess(ConfigSource config)
     {
-        return Exec.newConfigDiff();
+        return CONFIG_MAPPER_FACTORY.newConfigDiff();
     }
 
     public static PardotClient getClient(PluginTask task)
     {
-        final ConfigurationBuilder configBuilder;
         if (task.getAppClientId().isPresent()
                 && task.getAppClientSecret().isPresent()
                 && task.getBusinessUnitId().isPresent()) {

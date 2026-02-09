@@ -7,7 +7,6 @@ import com.darksci.pardot.api.response.email.Email;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivity;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivityQueryResponse;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivityType;
-import com.google.common.collect.ImmutableList;
 import org.embulk.config.ConfigException;
 import org.embulk.input.pardot.Client;
 import org.embulk.input.pardot.PluginTask;
@@ -36,9 +35,9 @@ public class EmailReporter implements ReporterInterface
         this.task = task;
     }
 
-    public ImmutableList.Builder<Column> createColumnBuilder()
+    public List<Column> createColumns()
     {
-        ImmutableList.Builder<Column> columns = ImmutableList.builder();
+        List<Column> columns = new ArrayList<>();
         int i = 0;
         // @see https://developer.pardot.com/kb/object-field-references/#email
         columns.add(new Column(i++, "id", Types.LONG));

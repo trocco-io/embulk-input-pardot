@@ -5,9 +5,6 @@ import com.darksci.pardot.api.request.DateParameter;
 import com.darksci.pardot.api.request.visitoractivity.VisitorActivityQueryRequest;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivity;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivityQueryResponse;
-
-import com.google.common.collect.ImmutableList;
-
 import org.embulk.input.pardot.PluginTask;
 import org.embulk.input.pardot.accessor.AccessorInterface;
 import org.embulk.input.pardot.accessor.VisitorActivityAccessor;
@@ -29,9 +26,9 @@ public class VisitorActivityReporter implements ReporterInterface
         this.queryRequest = buildQueryRequest();
     }
 
-    public ImmutableList.Builder<Column> createColumnBuilder()
+    public List<Column> createColumns()
     {
-        ImmutableList.Builder<Column> columns = ImmutableList.builder();
+        List<Column> columns = new ArrayList<>();
         int i = 0;
         //<id> integer
         columns.add(new Column(i++, "id", Types.LONG));

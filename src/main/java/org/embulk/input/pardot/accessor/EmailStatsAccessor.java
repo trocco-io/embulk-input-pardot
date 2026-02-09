@@ -2,7 +2,6 @@ package org.embulk.input.pardot.accessor;
 
 import com.darksci.pardot.api.response.email.EmailStatsResponse;
 import com.darksci.pardot.api.response.visitoractivity.VisitorActivity;
-import com.google.common.base.CaseFormat;
 import org.embulk.input.pardot.PluginTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +55,7 @@ public class EmailStatsAccessor implements AccessorInterface
                     return this.listEmailActivity.getCampaign().getFolderId().toString();
                 default:
             }
-            methodName = "get" + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name);
+            methodName = "get" + lowerUnderscoreToUpperCamel(name);
             Class<EmailStatsResponse.Stats> clazz = (Class<EmailStatsResponse.Stats>) stats.getClass();
             Method method = clazz.getDeclaredMethod(methodName);
             Object res =  method.invoke(stats);

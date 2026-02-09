@@ -1,7 +1,6 @@
 package org.embulk.input.pardot.accessor;
 
 import com.darksci.pardot.api.response.prospect.Prospect;
-import com.google.common.base.CaseFormat;
 import org.embulk.input.pardot.PluginTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class ProspectAccessor implements AccessorInterface
     {
         String methodName = "";
         try {
-            methodName = "get" + CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, name);
+            methodName = "get" + lowerUnderscoreToUpperCamel(name);
             Class<Prospect> clazz = (Class<Prospect>) prospect.getClass();
             Method method = clazz.getDeclaredMethod(methodName);
             Object res =  method.invoke(prospect);
