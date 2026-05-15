@@ -49,6 +49,30 @@ public class TestPardotInputPlugin
     }
 
     @Test
+    public void test__getClient__OAuth()
+    {
+        String configYaml = ""
+                + "type: pardot\n"
+                + "access_token: xxx\n"
+                + "auth_method: oauth\n"
+                + "created_after: 2020-12-01\n"
+                + "created_before: 2020-12-02\n";
+
+        ConfigSource config = getConfigFromYaml(configYaml);
+        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
+        PluginTask task = configMapper.map(config, PluginTask.class);
+
+        try {
+            PardotInputPlugin.getClient(task);
+        }
+        catch (ConfigException e) {
+            assertEquals("please set app_client_id, app_client_secret, business_unit_id", e.getMessage());
+            return;
+        }
+        assertTrue("Exception must be occurred", false);
+    }
+
+    @Test
     public void test__ColumnBuilder()
     {
         String configYaml = ""
