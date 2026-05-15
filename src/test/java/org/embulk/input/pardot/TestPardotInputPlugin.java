@@ -1,5 +1,6 @@
 package org.embulk.input.pardot;
 
+import com.darksci.pardot.api.PardotClient;
 import org.embulk.EmbulkTestRuntime;
 import org.embulk.config.ConfigException;
 import org.embulk.config.ConfigLoader;
@@ -10,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestPardotInputPlugin
@@ -62,14 +64,15 @@ public class TestPardotInputPlugin
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
         PluginTask task = configMapper.map(config, PluginTask.class);
 
+        PardotClient client = null;
         try {
-            PardotInputPlugin.getClient(task);
+            client = PardotInputPlugin.getClient(task);
         }
         catch (ConfigException e) {
             assertEquals("please set app_client_id, app_client_secret, business_unit_id", e.getMessage());
             return;
         }
-        assertTrue("Exception must be occurred", false);
+        assertNotNull(client);
     }
 
     @Test
