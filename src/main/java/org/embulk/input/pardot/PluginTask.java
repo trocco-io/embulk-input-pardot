@@ -14,9 +14,11 @@ public interface PluginTask extends Task
     String getObjectType();
 
     @Config("user_name")
+    @ConfigDefault("null")
     String getUserName();
 
     @Config("password")
+    @ConfigDefault("null")
     String getPassword();
 
     @Config("app_client_id")
