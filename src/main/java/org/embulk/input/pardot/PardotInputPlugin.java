@@ -107,7 +107,15 @@ public class PardotInputPlugin
 
     public static PardotClient getClient(PluginTask task)
     {
+        logger.info("=== getClient called ===");
+        logger.info("authMethod: {}", task.getAuthMethod());
+        logger.info("accessToken present: {}", task.getAccessToken().isPresent());
+        if (task.getAccessToken().isPresent()) {
+            logger.info("accessToken value: {}", task.getAccessToken().get());
+        }
+
         if ("oauth".equals(task.getAuthMethod()) && task.getAccessToken().isPresent()) {
+            logger.info("OAuth path selected");
             return Client.getClient(task.getAuthMethod(), task.getAccessToken().get());
         }
         else if (
