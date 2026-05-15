@@ -109,7 +109,8 @@ public class PardotInputPlugin
     {
         if ("oauth".equals(task.getAuthMethod()) && task.getAccessToken().isPresent()) {
             return Client.getClient(task.getAccessToken().get());
-        } else if (task.getAppClientId().isPresent()
+        }
+        else if (task.getAppClientId().isPresent()
                 && task.getAppClientSecret().isPresent()
                 && task.getBusinessUnitId().isPresent()) {
             return Client.getClient(
