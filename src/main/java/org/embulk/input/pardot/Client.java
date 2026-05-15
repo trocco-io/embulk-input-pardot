@@ -25,8 +25,8 @@ public class Client
     public static PardotClient getClient(PluginTask task)
     {
         return getClient(
-                task.getUserName(),
-                task.getPassword(),
+                task.getUserName().get(),
+                task.getPassword().get(),
                 task.getAppClientId().get(),
                 task.getAppClientSecret().get(),
                 task.getBusinessUnitId().get()
