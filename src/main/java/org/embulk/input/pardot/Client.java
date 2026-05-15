@@ -32,4 +32,11 @@ public class Client
                 task.getBusinessUnitId().get()
         );
     }
+
+    public static PardotClient getClient(String accessToken)
+    {
+        final ConfigurationBuilder configBuilder;
+        configBuilder = Configuration.newBuilder().withAccessToken(accessToken);
+        return new PardotClient(configBuilder);
+    }
 }

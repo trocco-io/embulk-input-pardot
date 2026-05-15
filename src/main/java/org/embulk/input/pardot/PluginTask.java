@@ -66,4 +66,12 @@ public interface PluginTask extends Task
     @Config("sort_order")
     @ConfigDefault("null")
     Optional<String> getSortOrder();
+
+    @Config("auth_method")
+    @ConfigDefault("\"user_password\"")
+    String getAuthMethod();
+
+    @Config("access_token")
+    @ConfigDefault("null")
+    Optional<String> getAccessToken();
 }

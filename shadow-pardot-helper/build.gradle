@@ -39,7 +39,7 @@ configurations {
 
 dependencies {
     // https://github.com/primenumber-dev/pardot-java-client
-    implementation 'io.github.primenumber-dev:pardot-api-client:3.2.0-0.0.10'
+    implementation 'io.github.primenumber-dev:pardot-api-client:3.3.0.test'
 }
 
 // Relocate Guava and Jackson packages since they are incompatible from Embulk's.
