@@ -33,12 +33,14 @@ public class Client
         );
     }
 
-    public static PardotClient getClient(String authMethod, String accessToken)
+    public static PardotClient getClient(String authMethod, String accessToken, String businessUnitId, String pardotApiHost)
     {
         final ConfigurationBuilder configBuilder;
         configBuilder = Configuration.newBuilder()
                 .withAuthMethod(authMethod)
-                .withAccessToken(accessToken);
+                .withAccessTokenAndBusinessUnitId(accessToken, businessUnitId)
+                .withPardotApiHost(pardotApiHost)
+                .withApiVersion4();
         return new PardotClient(configBuilder);
     }
 }

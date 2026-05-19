@@ -76,4 +76,8 @@ public interface PluginTask extends Task
     @Config("access_token")
     @ConfigDefault("null")
     Optional<String> getAccessToken();
+
+    @Config("pardot_api_host")
+    @ConfigDefault("\"https://pi.pardot.com/\"")
+    Optional<String> getPardotApiHost();
 }

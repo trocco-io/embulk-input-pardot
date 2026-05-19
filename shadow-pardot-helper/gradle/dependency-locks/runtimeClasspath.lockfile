@@ -10,7 +10,7 @@ com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.11.2
 com.fasterxml.woodstox:woodstox-core:6.2.1
 commons-codec:commons-codec:1.11
 commons-logging:commons-logging:1.2
-io.github.primenumber-dev:pardot-api-client:3.3.0.test2
+io.github.primenumber-dev:pardot-api-client:3.3.0
 jakarta.activation:jakarta.activation-api:1.2.1
 jakarta.xml.bind:jakarta.xml.bind-api:2.3.2
 joda-time:joda-time:2.9.9
