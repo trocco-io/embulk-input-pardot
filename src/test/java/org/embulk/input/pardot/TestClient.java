@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 public class TestClient
 {
@@ -25,29 +25,6 @@ public class TestClient
     {
         ConfigLoader loader = new ConfigLoader(runtime.getExec().getModelManager());
         return loader.fromYamlString(yaml);
-    }
-
-    @Test
-    public void test__getClient()
-    {
-        String configYaml = ""
-                + "type: pardot\n"
-                + "user_name: dummy@example.com\n"
-                + "password: password**\n"
-                + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
-
-        ConfigSource config = getConfigFromYaml(configYaml);
-        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
-        PluginTask task = configMapper.map(config, PluginTask.class);
-        try {
-            Client.getClient(task);
-        }
-        catch (ConfigException e) {
-            assertEquals("For user/password authentication, please set user_name, password, app_client_id, app_client_secret, business_unit_id", e.getMessage());
-            return;
-        }
-        fail("Exception must be occurred");
     }
 
     @Test
@@ -67,15 +44,27 @@ public class TestClient
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
         PluginTask task = configMapper.map(config, PluginTask.class);
 
-        PardotClient client = null;
-        try {
-            client = Client.getClient(task);
-        }
-        catch (ConfigException e) {
-            fail(e.getMessage());
-            return;
-        }
+        PardotClient client = Client.getClient(task);
         assertNotNull(client);
+    }
+
+    @Test
+    public void test__getClient__UserPassword__MissingRequiredFields()
+    {
+        String configYaml = ""
+                + "type: pardot\n"
+                + "user_name: dummy@example.com\n"
+                + "password: password**\n"
+                + "business_unit_id: business-unit-id\n"
+                + "created_after: 2020-12-01\n"
+                + "created_before: 2020-12-02\n";
+
+        ConfigSource config = getConfigFromYaml(configYaml);
+        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
+        PluginTask task = configMapper.map(config, PluginTask.class);
+
+        ConfigException exception = assertThrows(ConfigException.class, () -> Client.getClient(task));
+        assertEquals("For user/password authentication, please set user_name, password, app_client_id, app_client_secret, business_unit_id", exception.getMessage());
     }
 
     @Test
@@ -91,13 +80,8 @@ public class TestClient
         ConfigSource config = getConfigFromYaml(configYaml);
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
         PluginTask task = configMapper.map(config, PluginTask.class);
-        try {
-            Client.getClient(task);
-        }
-        catch (ConfigException e) {
-            assertEquals("For OAuth authentication, please set access_token, business_unit_id", e.getMessage());
-            return;
-        }
-        fail("Exception must be occurred");
+
+        ConfigException exception = assertThrows(ConfigException.class, () -> Client.getClient(task));
+        assertEquals("For OAuth authentication, please set access_token, business_unit_id", exception.getMessage());
     }
 }
