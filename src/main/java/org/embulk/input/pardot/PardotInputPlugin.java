@@ -2,11 +2,13 @@ package org.embulk.input.pardot;
 
 import com.darksci.pardot.api.PardotClient;
 import org.embulk.config.ConfigDiff;
+import org.embulk.config.ConfigException;
 import org.embulk.config.ConfigSource;
 import org.embulk.config.TaskReport;
 import org.embulk.config.TaskSource;
 import org.embulk.input.pardot.accessor.AccessorInterface;
 import org.embulk.input.pardot.reporter.ReporterInterface;
+import org.embulk.input.pardot.type.AuthMethodType;
 import org.embulk.spi.Column;
 import org.embulk.spi.Exec;
 import org.embulk.spi.InputPlugin;
@@ -36,6 +38,7 @@ public class PardotInputPlugin
     {
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
         PluginTask task = configMapper.map(config, PluginTask.class);
+        validateConfig(task);
 
         reporter = ReporterBuilder.create(task);
         List<Column> columns = reporter.createColumns();
@@ -102,5 +105,23 @@ public class PardotInputPlugin
     public ConfigDiff guess(ConfigSource config)
     {
         return CONFIG_MAPPER_FACTORY.newConfigDiff();
+    }
+
+    private void validateConfig(PluginTask task)
+    {
+        if (task.getAuthMethod().isPresent() && AuthMethodType.OAUTH == task.getAuthMethod().get()) {
+            if (!task.getAccessToken().isPresent() || !task.getBusinessUnitId().isPresent()) {
+                throw new ConfigException("`access_token` and `business_unit_id` is required when `auth_method` is OAUTH");
+            }
+            return;
+        }
+
+        if (!task.getUserName().isPresent()
+                || !task.getPassword().isPresent()
+                || !task.getAppClientId().isPresent()
+                || !task.getAppClientSecret().isPresent()
+                || !task.getBusinessUnitId().isPresent()) {
+            throw new ConfigException("All fields are required when `auth_method` is USER_PASSWORD");
+        }
     }
 }
