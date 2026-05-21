@@ -1,6 +1,5 @@
 package org.embulk.input.pardot;
 
-import com.darksci.pardot.api.PardotClient;
 import org.embulk.EmbulkTestRuntime;
 import org.embulk.config.ConfigException;
 import org.embulk.config.ConfigLoader;
@@ -11,7 +10,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestPardotInputPlugin
@@ -25,54 +23,6 @@ public class TestPardotInputPlugin
     {
         ConfigLoader loader = new ConfigLoader(runtime.getExec().getModelManager());
         return loader.fromYamlString(yaml);
-    }
-
-    @Test
-    public void test__getClient()
-    {
-        String configYaml = ""
-                + "type: pardot\n"
-                + "user_name: dummy@example.com\n"
-                + "password: password**\n"
-                + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
-
-        ConfigSource config = getConfigFromYaml(configYaml);
-        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
-        PluginTask task = configMapper.map(config, PluginTask.class);
-        try {
-            PardotInputPlugin.getClient(task);
-        }
-        catch (ConfigException e) {
-            assertEquals("please set app_client_id, app_client_secret, business_unit_id", e.getMessage());
-            return;
-        }
-        assertTrue("Exception must be occurred", false);
-    }
-
-    @Test
-    public void test__getClient__OAuth()
-    {
-        String configYaml = ""
-                + "type: pardot\n"
-                + "access_token: xxx\n"
-                + "auth_method: oauth\n"
-                + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
-
-        ConfigSource config = getConfigFromYaml(configYaml);
-        ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
-        PluginTask task = configMapper.map(config, PluginTask.class);
-
-        PardotClient client = null;
-        try {
-            client = PardotInputPlugin.getClient(task);
-        }
-        catch (ConfigException e) {
-            assertEquals("please set app_client_id, app_client_secret, business_unit_id", e.getMessage());
-            return;
-        }
-        assertNotNull(client);
     }
 
     @Test

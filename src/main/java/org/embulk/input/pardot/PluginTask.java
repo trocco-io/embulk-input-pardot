@@ -1,5 +1,6 @@
 package org.embulk.input.pardot;
 
+import org.embulk.input.pardot.type.AuthMethodType;
 import org.embulk.util.config.Config;
 import org.embulk.util.config.ConfigDefault;
 import org.embulk.util.config.Task;
@@ -70,14 +71,18 @@ public interface PluginTask extends Task
     Optional<String> getSortOrder();
 
     @Config("auth_method")
-    @ConfigDefault("\"user_password\"")
-    String getAuthMethod();
+    @ConfigDefault("\"USER_PASSWORD\"")
+    Optional<AuthMethodType> getAuthMethod();
 
     @Config("access_token")
     @ConfigDefault("null")
     Optional<String> getAccessToken();
 
-    @Config("pardot_api_host")
-    @ConfigDefault("\"https://pi.pardot.com/\"")
-    Optional<String> getPardotApiHost();
+    @Config("use_demo_host")
+    @ConfigDefault("false")
+    Optional<Boolean> getUseDemoHost();
+
+    @Config("pardot_api_version")
+    @ConfigDefault("3")
+    Optional<Integer> getPardotApiVersion();
 }

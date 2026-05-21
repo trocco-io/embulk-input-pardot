@@ -2,7 +2,6 @@ package org.embulk.input.pardot;
 
 import com.darksci.pardot.api.PardotClient;
 import org.embulk.config.ConfigDiff;
-import org.embulk.config.ConfigException;
 import org.embulk.config.ConfigSource;
 import org.embulk.config.TaskReport;
 import org.embulk.config.TaskSource;
@@ -72,7 +71,7 @@ public class PardotInputPlugin
         TaskMapper taskMapper = CONFIG_MAPPER_FACTORY.createTaskMapper();
         PluginTask task = taskMapper.map(taskSource, PluginTask.class);
         final PageBuilder pageBuilder = new PageBuilder(Exec.getBufferAllocator(), schema, output);
-        final PardotClient pardotClient = getClient(task);
+        final PardotClient pardotClient = Client.getClient(task);
         reporter = ReporterBuilder.create(task);
 
         Integer totalResults;
@@ -103,35 +102,5 @@ public class PardotInputPlugin
     public ConfigDiff guess(ConfigSource config)
     {
         return CONFIG_MAPPER_FACTORY.newConfigDiff();
-    }
-
-    public static PardotClient getClient(PluginTask task)
-    {
-        if ("oauth".equals(task.getAuthMethod())
-                && task.getAccessToken().isPresent()
-                && task.getBusinessUnitId().isPresent()
-                && task.getPardotApiHost().isPresent()) {
-            return Client.getClient(
-                    task.getAuthMethod(),
-                    task.getAccessToken().get(),
-                    task.getBusinessUnitId().get(),
-                    task.getPardotApiHost().get()
-            );
-        }
-        else if (
-                task.getUserName().isPresent()
-                && task.getPassword().isPresent()
-                && task.getAppClientId().isPresent()
-                && task.getAppClientSecret().isPresent()
-                && task.getBusinessUnitId().isPresent()) {
-            return Client.getClient(
-                    task.getUserName().get(),
-                    task.getPassword().get(),
-                    task.getAppClientId().get(),
-                    task.getAppClientSecret().get(),
-                    task.getBusinessUnitId().get()
-            );
-        }
-        throw new ConfigException("please set app_client_id, app_client_secret, business_unit_id");
     }
 }
