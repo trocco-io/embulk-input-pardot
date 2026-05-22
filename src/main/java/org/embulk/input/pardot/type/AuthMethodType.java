@@ -3,20 +3,18 @@ package org.embulk.input.pardot.type;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.util.Locale;
-
 public enum AuthMethodType {
-    OAUTH,
-    USER_PASSWORD;
+    oauth,
+    user_password;
 
     @JsonCreator
     public static AuthMethodType fromString(String value)
     {
         if (value == null) {
-            return USER_PASSWORD; // デフォルト値
+            return user_password; // デフォルト値
         }
         try {
-            return AuthMethodType.valueOf(value.toUpperCase(Locale.ENGLISH));
+            return AuthMethodType.valueOf(value);
         }
         catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(String.format(

@@ -33,10 +33,9 @@ public class TestClient
         String configYaml = ""
                 + "type: pardot\n"
                 + "access_token: xxx\n"
-                + "auth_method: OAUTH\n"
+                + "auth_method: oauth\n"
                 + "business_unit_id: business-unit-id\n"
                 + "use_demo_host: true\n"
-                + "pardot_api_version: 4\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
@@ -56,6 +55,7 @@ public class TestClient
                 + "user_name: dummy@example.com\n"
                 + "password: password**\n"
                 + "business_unit_id: business-unit-id\n"
+                + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
@@ -72,7 +72,7 @@ public class TestClient
     {
         String configYaml = ""
                 + "type: pardot\n"
-                + "auth_method: OAUTH\n"
+                + "auth_method: oauth\n"
                 + "business_unit_id: business-unit-id\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";

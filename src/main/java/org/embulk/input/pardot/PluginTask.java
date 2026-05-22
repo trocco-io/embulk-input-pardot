@@ -71,8 +71,8 @@ public interface PluginTask extends Task
     Optional<String> getSortOrder();
 
     @Config("auth_method")
-    @ConfigDefault("\"USER_PASSWORD\"")
-    Optional<AuthMethodType> getAuthMethod();
+    @ConfigDefault("\"user_password\"")
+    AuthMethodType getAuthMethod();
 
     @Config("access_token")
     @ConfigDefault("null")
@@ -81,8 +81,4 @@ public interface PluginTask extends Task
     @Config("use_demo_host")
     @ConfigDefault("false")
     Optional<Boolean> getUseDemoHost();
-
-    @Config("pardot_api_version")
-    @ConfigDefault("3")
-    Optional<Integer> getPardotApiVersion();
 }

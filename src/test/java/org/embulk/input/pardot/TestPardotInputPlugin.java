@@ -45,6 +45,7 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id**\n"
                 + "app_client_secret: app-client-secret**\n"
                 + "business_unit_id: business-unit-id**\n"
+                + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
@@ -72,6 +73,7 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id\n"
                 + "app_client_secret: app-client-secret\n"
                 + "business_unit_id: business-unit-id\n"
+                + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
@@ -163,6 +165,7 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id\n"
                 + "app_client_secret: app-client-secret\n"
                 + "business_unit_id: business-unit-id\n"
+                + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
@@ -189,6 +192,7 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id\n"
                 + "app_client_secret: app-client-secret\n"
                 + "business_unit_id: business-unit-id\n"
+                + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
                 + "created_before: 2020-12-02\n";
 
