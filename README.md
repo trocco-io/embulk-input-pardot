@@ -31,7 +31,7 @@ Now only 'Querying Visitor Activities' is supported.
   - created_at, id, prospect_id, visitor_id
 - **sort_order**: Specifies the ordering to be used when sorting the results of the query. The default value varies based on the value of the sort_by parameter
   - descending(default), ascending
-- **auth_method**: Specifies the authentication method to be used (required)
+- **auth_method**: Specifies the authentication method to be used.
   - user_password(default), oauth
 - **access_token**: Specifies the access token to be used for authentication. (string, default: `null`)
 - **use_demo_host**: Specifies whether to use the pardot demo host.
