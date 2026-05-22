@@ -109,7 +109,7 @@ public class PardotInputPlugin
 
     private void validateConfig(PluginTask task)
     {
-        if (AuthMethodType.oauth == task.getAuthMethod()) {
+        if (AuthMethodType.OAUTH == task.getAuthMethod()) {
             if (!task.getAccessToken().isPresent() || !task.getBusinessUnitId().isPresent()) {
                 throw new ConfigException("`access_token` and `business_unit_id` is required when `auth_method` is oauth");
             }
@@ -121,7 +121,7 @@ public class PardotInputPlugin
                 || !task.getAppClientId().isPresent()
                 || !task.getAppClientSecret().isPresent()
                 || !task.getBusinessUnitId().isPresent()) {
-            throw new ConfigException("All fields are required when `auth_method` is user_password");
+            throw new ConfigException("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password");
         }
     }
 }

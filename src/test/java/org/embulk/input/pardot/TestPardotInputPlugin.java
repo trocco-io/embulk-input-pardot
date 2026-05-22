@@ -178,7 +178,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing user_name");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
+            assertEquals("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -205,7 +205,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing password");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
+            assertEquals("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -220,7 +220,9 @@ public class TestPardotInputPlugin
                 + "app_client_secret: app-client-secret\n"
                 + "business_unit_id: business-unit-id\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "auth_method: user_password\n"
+                + "use_demo_host: false\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         PardotInputPlugin plugin = new PardotInputPlugin();
@@ -231,7 +233,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing app_client_id");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
+            assertEquals("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -246,7 +248,9 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id\n"
                 + "business_unit_id: business-unit-id\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "auth_method: user_password\n"
+                + "use_demo_host: false\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         PardotInputPlugin plugin = new PardotInputPlugin();
@@ -257,7 +261,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing app_client_secret");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
+            assertEquals("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -272,7 +276,9 @@ public class TestPardotInputPlugin
                 + "app_client_id: app-client-id\n"
                 + "app_client_secret: app-client-secret\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "auth_method: user_password\n"
+                + "use_demo_host: false\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         PardotInputPlugin plugin = new PardotInputPlugin();
@@ -283,7 +289,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing business_unit_id");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
+            assertEquals("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 }

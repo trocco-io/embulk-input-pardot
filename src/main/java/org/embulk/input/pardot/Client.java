@@ -28,13 +28,13 @@ public class Client
     {
         AuthMethodType authMethod = task.getAuthMethod();
 
-        if (authMethod == AuthMethodType.oauth) {
+        if (authMethod == AuthMethodType.OAUTH) {
             if (task.getAccessToken().isPresent()
              && task.getBusinessUnitId().isPresent()) {
                 return getClient(
                         task.getAccessToken().get(),
                         task.getBusinessUnitId().get(),
-                        task.getUseDemoHost().orElse(false)
+                        task.getUseDemoHost()
                 );
             }
             throw new ConfigException("For OAuth authentication, please set access_token, business_unit_id");

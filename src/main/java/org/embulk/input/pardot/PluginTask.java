@@ -80,5 +80,5 @@ public interface PluginTask extends Task
 
     @Config("use_demo_host")
     @ConfigDefault("false")
-    Optional<Boolean> getUseDemoHost();
+    Boolean getUseDemoHost();
 }

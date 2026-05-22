@@ -37,7 +37,8 @@ public class TestClient
                 + "business_unit_id: business-unit-id\n"
                 + "use_demo_host: true\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "use_demo_host: true\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
@@ -57,7 +58,8 @@ public class TestClient
                 + "business_unit_id: business-unit-id\n"
                 + "auth_method: user_password\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "use_demo_host: true\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
@@ -75,7 +77,8 @@ public class TestClient
                 + "auth_method: oauth\n"
                 + "business_unit_id: business-unit-id\n"
                 + "created_after: 2020-12-01\n"
-                + "created_before: 2020-12-02\n";
+                + "created_before: 2020-12-02\n"
+                + "use_demo_host: true\n";
 
         ConfigSource config = getConfigFromYaml(configYaml);
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();

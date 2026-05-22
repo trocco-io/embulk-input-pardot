@@ -12,8 +12,8 @@ Now only 'Querying Visitor Activities' is supported.
 
 ## Configuration
 
-- **user_name**: pardot/salesforce email (string, required)
-- **password**: pardot/salesforce password (string, required)
+- **user_name**: pardot/salesforce email (string, default: `null`)
+- **password**: pardot/salesforce password (string, default: `null`)
 - **user_key**: pardot user-key (string, default: `null`)
 - **app_client_id**: salesforce app-client-id (string, default: `null`)
 - **app_client_secret**: salesforce app-client-secret (string, default: `null`)
@@ -31,11 +31,25 @@ Now only 'Querying Visitor Activities' is supported.
   - created_at, id, prospect_id, visitor_id
 - **sort_order**: Specifies the ordering to be used when sorting the results of the query. The default value varies based on the value of the sort_by parameter
   - descending(default), ascending
-- **auth_method**: Specifies the authentication method to be used.
+- **auth_method**: Specifies the authentication method to be used (required)
   - user_password, oauth
-- **access_token**: Specifies the access token to be used for authentication.
+- **access_token**: Specifies the access token to be used for authentication. (string, default: `null`)
 - **use_demo_host**: Specifies whether to use the pardot demo host.
   - true, false (default)
+
+### Required parameters
+
+Required parameters depend on the value of auth_method.
+
+- when auth_method is user_password
+  - user_name
+  - password
+  - app_client_id
+  - app_client_secret
+  - business_unit_id
+- when auth_method is oauth
+  - access_token
+  - business_unit_id
 
 see API document
 - https://developer.pardot.com/kb/api-version-4/visitor-activities/
