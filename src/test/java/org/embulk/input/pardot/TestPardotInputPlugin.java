@@ -127,7 +127,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing access_token");
         }
         catch (ConfigException e) {
-            assertEquals("`access_token` and `business_unit_id` is required when `auth_method` is OAUTH", e.getMessage());
+            assertEquals("`access_token` and `business_unit_id` is required when `auth_method` is oauth", e.getMessage());
         }
     }
 
@@ -151,7 +151,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing business_unit_id");
         }
         catch (ConfigException e) {
-            assertEquals("`access_token` and `business_unit_id` is required when `auth_method` is OAUTH", e.getMessage());
+            assertEquals("`access_token` and `business_unit_id` is required when `auth_method` is oauth", e.getMessage());
         }
     }
 
@@ -178,7 +178,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing user_name");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is USER_PASSWORD", e.getMessage());
+            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -205,7 +205,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing password");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is USER_PASSWORD", e.getMessage());
+            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -231,7 +231,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing app_client_id");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is USER_PASSWORD", e.getMessage());
+            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -257,7 +257,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing app_client_secret");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is USER_PASSWORD", e.getMessage());
+            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 
@@ -283,7 +283,7 @@ public class TestPardotInputPlugin
             fail("Expected ConfigException for missing business_unit_id");
         }
         catch (ConfigException e) {
-            assertEquals("All fields are required when `auth_method` is USER_PASSWORD", e.getMessage());
+            assertEquals("All fields are required when `auth_method` is user_password", e.getMessage());
         }
     }
 }
