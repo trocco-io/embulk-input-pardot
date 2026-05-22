@@ -32,7 +32,7 @@ Now only 'Querying Visitor Activities' is supported.
 - **sort_order**: Specifies the ordering to be used when sorting the results of the query. The default value varies based on the value of the sort_by parameter
   - descending(default), ascending
 - **auth_method**: Specifies the authentication method to be used.
-  - user_password(default), oauth
+  - user_password, oauth
 - **access_token**: Specifies the access token to be used for authentication.
 - **use_demo_host**: Specifies whether to use the pardot demo host.
   - true, false (default)
@@ -125,6 +125,7 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
   object_type: email
   created_after: 2020-12-01
   created_before: 2020-12-02
@@ -157,6 +158,7 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
   object_type: prospect
   created_after: 2020-12-01
   created_before: 2020-12-02
@@ -189,6 +191,7 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
   object_type: visitor
   created_after: 2020-12-01
   created_before: 2020-12-02
