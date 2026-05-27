@@ -12,8 +12,8 @@ Now only 'Querying Visitor Activities' is supported.
 
 ## Configuration
 
-- **user_name**: pardot/salesforce email (string, required)
-- **password**: pardot/salesforce password (string, required)
+- **user_name**: pardot/salesforce email (string, default: `null`)
+- **password**: pardot/salesforce password (string, default: `null`)
 - **user_key**: pardot user-key (string, default: `null`)
 - **app_client_id**: salesforce app-client-id (string, default: `null`)
 - **app_client_secret**: salesforce app-client-secret (string, default: `null`)
@@ -31,6 +31,25 @@ Now only 'Querying Visitor Activities' is supported.
   - created_at, id, prospect_id, visitor_id
 - **sort_order**: Specifies the ordering to be used when sorting the results of the query. The default value varies based on the value of the sort_by parameter
   - descending(default), ascending
+- **auth_method**: Specifies the authentication method to be used.
+  - user_password(default), oauth
+- **access_token**: Specifies the access token to be used for authentication. (string, default: `null`)
+- **use_demo_host**: Specifies whether to use the pardot demo host.
+  - true, false (default)
+
+### Required parameters
+
+Required parameters depend on the value of auth_method.
+
+- when auth_method is user_password
+  - user_name
+  - password
+  - app_client_id
+  - app_client_secret
+  - business_unit_id
+- when auth_method is oauth
+  - access_token
+  - business_unit_id
 
 see API document
 - https://developer.pardot.com/kb/api-version-4/visitor-activities/
@@ -41,6 +60,9 @@ see API document
 
 
 - visitor activity
+
+when auth_method is user_password
+
 ```yaml
 in:
   type: pardot
@@ -51,6 +73,23 @@ in:
   business_unit_id: business-unit-id**
   created_after: 2020-12-01
   created_before: 2020-12-02
+  auth_method: user_password
+  prospect_ids:
+    - 1234
+  sort_key: created_at
+  sort_order: descending
+```
+
+when auth_method is oauth
+
+```yaml
+in:
+  type: pardot
+  access_token: access-token** 
+  business_unit_id: business-unit-id**
+  created_after: 2020-12-01
+  created_before: 2020-12-02
+  auth_method: oauth
   prospect_ids:
     - 1234
   sort_key: created_at
@@ -67,6 +106,22 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
+  object_type: email_stats
+  created_after: 2020-12-01
+  created_before: 2020-12-02
+  sort_key: created_at
+  sort_order: descending
+```
+
+when auth_method is oauth
+
+```yaml
+in:
+  type: pardot
+  access_token: access-token** 
+  business_unit_id: business-unit-id**
+  auth_method: oauth
   object_type: email_stats
   created_after: 2020-12-01
   created_before: 2020-12-02
@@ -84,6 +139,7 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
   object_type: email
   created_after: 2020-12-01
   created_before: 2020-12-02
@@ -91,6 +147,20 @@ in:
   sort_order: descending
 ```
 
+when auth_method is oauth
+
+```yaml
+in:
+  type: pardot
+  access_token: access-token** 
+  business_unit_id: business-unit-id**
+  auth_method: oauth
+  object_type: email
+  created_after: 2020-12-01
+  created_before: 2020-12-02
+  sort_key: created_at
+  sort_order: descending
+```
 
 - prospect
 
@@ -102,12 +172,29 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
   object_type: prospect
   created_after: 2020-12-01
   created_before: 2020-12-02
   sort_key: created_at
   sort_order: descending
 ```
+
+when auth_method is oauth
+
+```yaml
+in:
+  type: pardot
+  access_token: access-token** 
+  business_unit_id: business-unit-id**
+  auth_method: oauth
+  object_type: prospect
+  created_after: 2020-12-01
+  created_before: 2020-12-02
+  sort_key: created_at
+  sort_order: descending
+```
+
 - visitor
 
 ```yaml
@@ -118,6 +205,22 @@ in:
   app_client_id: app-client-id**
   app_client_secret: app-client-secret**
   business_unit_id: business-unit-id**
+  auth_method: user_password
+  object_type: visitor
+  created_after: 2020-12-01
+  created_before: 2020-12-02
+  sort_key: created_at
+  sort_order: descending
+```
+
+when auth_method is oauth
+
+```yaml
+in:
+  type: pardot
+  access_token: access-token** 
+  business_unit_id: business-unit-id**
+  auth_method: oauth
   object_type: visitor
   created_after: 2020-12-01
   created_before: 2020-12-02

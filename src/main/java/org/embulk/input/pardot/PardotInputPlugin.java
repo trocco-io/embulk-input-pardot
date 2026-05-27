@@ -8,6 +8,7 @@ import org.embulk.config.TaskReport;
 import org.embulk.config.TaskSource;
 import org.embulk.input.pardot.accessor.AccessorInterface;
 import org.embulk.input.pardot.reporter.ReporterInterface;
+import org.embulk.input.pardot.type.AuthMethodType;
 import org.embulk.spi.Column;
 import org.embulk.spi.Exec;
 import org.embulk.spi.InputPlugin;
@@ -37,6 +38,7 @@ public class PardotInputPlugin
     {
         ConfigMapper configMapper = CONFIG_MAPPER_FACTORY.createConfigMapper();
         PluginTask task = configMapper.map(config, PluginTask.class);
+        validateConfig(task);
 
         reporter = ReporterBuilder.create(task);
         List<Column> columns = reporter.createColumns();
@@ -72,7 +74,7 @@ public class PardotInputPlugin
         TaskMapper taskMapper = CONFIG_MAPPER_FACTORY.createTaskMapper();
         PluginTask task = taskMapper.map(taskSource, PluginTask.class);
         final PageBuilder pageBuilder = new PageBuilder(Exec.getBufferAllocator(), schema, output);
-        final PardotClient pardotClient = getClient(task);
+        final PardotClient pardotClient = Client.getClient(task);
         reporter = ReporterBuilder.create(task);
 
         Integer totalResults;
@@ -105,19 +107,21 @@ public class PardotInputPlugin
         return CONFIG_MAPPER_FACTORY.newConfigDiff();
     }
 
-    public static PardotClient getClient(PluginTask task)
+    private void validateConfig(PluginTask task)
     {
-        if (task.getAppClientId().isPresent()
-                && task.getAppClientSecret().isPresent()
-                && task.getBusinessUnitId().isPresent()) {
-            return Client.getClient(
-                    task.getUserName(),
-                    task.getPassword(),
-                    task.getAppClientId().get(),
-                    task.getAppClientSecret().get(),
-                    task.getBusinessUnitId().get()
-            );
+        if (AuthMethodType.OAUTH == task.getAuthMethod()) {
+            if (!task.getAccessToken().isPresent() || !task.getBusinessUnitId().isPresent()) {
+                throw new ConfigException("`access_token` and `business_unit_id` is required when `auth_method` is oauth");
+            }
+            return;
         }
-        throw new ConfigException("please set app_client_id, app_client_secret, business_unit_id");
+
+        if (!task.getUserName().isPresent()
+                || !task.getPassword().isPresent()
+                || !task.getAppClientId().isPresent()
+                || !task.getAppClientSecret().isPresent()
+                || !task.getBusinessUnitId().isPresent()) {
+            throw new ConfigException("user_name, password, app_client_id, app_client_secret, and business_unit_id fields are required when `auth_method` is user_password");
+        }
     }
 }

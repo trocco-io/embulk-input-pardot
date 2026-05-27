@@ -1,5 +1,6 @@
 package org.embulk.input.pardot;
 
+import org.embulk.input.pardot.type.AuthMethodType;
 import org.embulk.util.config.Config;
 import org.embulk.util.config.ConfigDefault;
 import org.embulk.util.config.Task;
@@ -14,10 +15,12 @@ public interface PluginTask extends Task
     String getObjectType();
 
     @Config("user_name")
-    String getUserName();
+    @ConfigDefault("null")
+    Optional<String> getUserName();
 
     @Config("password")
-    String getPassword();
+    @ConfigDefault("null")
+    Optional<String> getPassword();
 
     @Config("app_client_id")
     @ConfigDefault("null")
@@ -66,4 +69,16 @@ public interface PluginTask extends Task
     @Config("sort_order")
     @ConfigDefault("null")
     Optional<String> getSortOrder();
+
+    @Config("auth_method")
+    @ConfigDefault("\"user_password\"")
+    AuthMethodType getAuthMethod();
+
+    @Config("access_token")
+    @ConfigDefault("null")
+    Optional<String> getAccessToken();
+
+    @Config("use_demo_host")
+    @ConfigDefault("false")
+    Boolean getUseDemoHost();
 }
